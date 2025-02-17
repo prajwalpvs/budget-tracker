@@ -28,14 +28,20 @@ h1 {
     color: #2c3e50;
 }
 
-h2 {
-    margin: 10px 0;
-    color: #2c3e50;
-}
-
 .balance-container {
     text-align: center;
     margin-bottom: 30px;
+}
+
+.balance-container h2 {
+    color: #2c3e50;
+    margin: 10px 0;
+}
+
+#balance {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #2c3e50;
 }
 
 .income-expense-container {
@@ -51,6 +57,11 @@ h2 {
 .income, .expense {
     flex: 1;
     text-align: center;
+    padding: 20px;
+}
+
+.income {
+    border-right: 1px solid #ddd;
 }
 
 .income h3 {
@@ -73,7 +84,7 @@ label {
 
 input {
     width: 100%;
-    padding: 10px;
+    padding: 12px;
     border: 1px solid #ddd;
     border-radius: 4px;
     font-size: 16px;
@@ -87,9 +98,11 @@ input:focus {
 small {
     color: #666;
     font-size: 12px;
+    display: block;
+    margin-top: 5px;
 }
 
-.btn {
+button {
     width: 100%;
     padding: 12px;
     background-color: #3498db;
@@ -101,43 +114,76 @@ small {
     transition: background-color 0.3s;
 }
 
-.btn:hover {
+button:hover {
     background-color: #2980b9;
 }
 
 .transaction-list {
     list-style: none;
     margin-top: 20px;
+    max-height: 300px;
+    overflow-y: auto;
 }
 
 .transaction-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px;
-    margin-bottom: 10px;
-    background-color: white;
+    padding: 12px;
+    margin-bottom: 8px;
+    background-color: #fff;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
     border-radius: 4px;
-    border-right: 5px solid;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
 }
 
 .transaction-item.income {
-    border-right-color: #2ecc71;
+    border-right: 4px solid #2ecc71;
 }
 
 .transaction-item.expense {
-    border-right-color: #e74c3c;
+    border-right: 4px solid #e74c3c;
+}
+
+.transaction-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex: 1;
+    margin-right: 10px;
+}
+
+.description {
+    font-weight: 500;
+}
+
+.amount {
+    font-weight: bold;
 }
 
 .delete-btn {
+    width: 30px;
+    height: 30px;
+    padding: 0;
     background-color: #e74c3c;
     color: white;
-    border: none;
-    padding: 5px 10px;
-    border-radius: 3px;
-    cursor: pointer;
-    font-size: 12px;
+    border-radius: 50%;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
 }
 
 .delete-btn:hover {
