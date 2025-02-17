@@ -89,6 +89,55 @@ function updateLocalStorage() {
     localStorage.setItem('transactions', JSON.stringify(transactions));
 }
 
+function exportToCSV() {
+    // Exit if no transactions
+    if (transactions.length === 0) {
+        alert('No transactions to export');
+        return;
+    }
+
+    // Prepare CSV headers and data
+    const headers = ['Date', 'Description', 'Amount', 'Type'];
+    const csvData = transactions.map(transaction => {
+        const date = new Date(transaction.timestamp).toLocaleDateString();
+        const type = transaction.amount >= 0 ? 'Income' : 'Expense';
+        return [
+            date,
+            transaction.description,
+            Math.abs(transaction.amount).toFixed(2),
+            type
+        ];
+    });
+
+    // Add headers to the beginning of csvData
+    csvData.unshift(headers);
+
+    // Convert to CSV string
+    const csvString = csvData.map(row => 
+        row.map(cell => 
+            // Escape quotes and wrap in quotes if contains comma
+            typeof cell === 'string' && (cell.includes(',') || cell.includes('"')) 
+                ? `"${cell.replace(/"/g, '""')}"` 
+                : cell
+        ).join(',')
+    ).join('\n');
+
+    // Create and trigger download
+    const blob = new Blob([csvString], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    
+    link.setAttribute('href', url);
+    link.setAttribute('download', `budget-tracker-${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.display = 'none';
+    
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+
 transactionFormEl.addEventListener('submit', addTransaction);
+
 
 init();
